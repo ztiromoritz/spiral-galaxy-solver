@@ -6,8 +6,8 @@ export const state = reactive({
 });
 
 
-for (let i=0; i<120;i++){
-    state.field.push(new Array(120)
+for (let i=0; i<12;i++){
+    state.field.push(new Array(12)
         .fill(0)
         .map(()=>Math.floor(Math.random()*44)));
 }

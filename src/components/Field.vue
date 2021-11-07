@@ -24,8 +24,8 @@ while(n--){
     colors.push(Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
 }
 const style = (i)=>{
-    return `linear-gradient(33deg, #${colors[i]} 0%, #${colors[(i+10)%43]} 100%)`
-    //return `#${colors[i]}`
+    //return `linear-gradient(33deg, #${colors[i]} 0%, #${colors[(i+10)%43]} 100%)`
+    return `#${colors[i]}`
 }
 console.log(colors);
 console.log("asdf"+style(0));
@@ -42,8 +42,8 @@ const grid_position = ([x,y])=>{
 <style>
 .field {
     display: grid;
-    grid-template-columns: repeat(120, 40px);
-    grid-template-rows: repeat(120, 40px);
+    grid-template-columns: repeat(12, 40px);
+    grid-template-rows: repeat(12, 40px);
     grid-gap: 4px;
 }
 .row {

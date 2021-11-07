@@ -4,18 +4,28 @@
 </script>
 
 <template>
-<div>
+  <div class="wrapper">
   <Field></Field>
   </div>
 </template>
 
 <style>
+html, body {
+  height: 100%;
+}
+body {
+  display:flex;
+  }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: auto;
+  display: flex;
+}
+.wrapper {
+  margin: auto;
 }
 </style>

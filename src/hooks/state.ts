@@ -7,9 +7,16 @@ const {floor, ceil} = Math;
 export const useGameState = defineStore('game-state', ()=>{
     const state = reactive({
         field: [],
-        centers : []
+        centers : [],
+        trivialFields: [] // can't be removed
     });
 
+
+    function forEachField(fn: (x,y, value)=>void){
+        state.field.forEach((row,y)=>{
+            row.forEach((value,x)=> {if(fn) fn(x,y,value);})
+        })
+    }
 
     function resetField(cols = 12, rows=12){
         for (let row=0; row<rows;row++){
@@ -29,11 +36,19 @@ export const useGameState = defineStore('game-state', ()=>{
             state.field[ceil(y)][floor(x)] = index;
             state.field[ceil(y)][ceil(x)] = index;
         })
-
+        state.trivialFields = [];
+        forEachField((x,y,value)=>{
+            if(value>0) state.trivialFields.push([x,y])
+        })
     }
 
     function allPossibleMoves(){
-        
+        // for every marked field only check left and up, 
+        // because down and right will follow as mirrored 
+    }
+
+    function applyMove(){
+
     }
 
     return {state, resetField, setCenters, initTrivial};    

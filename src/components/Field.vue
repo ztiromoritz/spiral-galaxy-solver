@@ -16,7 +16,9 @@
 </template>
 
 <script setup>
-import {state}  from "../hooks/state";
+import {useGameState}  from "../hooks/state";
+const {state, resetField, setCenters, initTrivial} = useGameState();
+
 
 const colors = [];
 let n =44;
@@ -24,9 +26,14 @@ while(n--){
     colors.push(Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
 }
 const style = (i)=>{
+    if(i<0) return '#bbb';
     //return `linear-gradient(33deg, #${colors[i]} 0%, #${colors[(i+10)%43]} 100%)`
     return `#${colors[i]}`
 }
+resetField();
+setCenters([[6,6], [9.5,7], [9.5,10.5], [2,2.5]])
+
+initTrivial();
 console.log(colors);
 console.log("asdf"+style(0));
 

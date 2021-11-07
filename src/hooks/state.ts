@@ -1,14 +1,46 @@
 import { reactive } from "vue";
-
-export const state = reactive({
-    field: [],
-    centers : [[6,6], [9.5,7], [9.5,10.5], [2,2.5]]
-});
+import { defineStore } from 'pinia'
 
 
-for (let i=0; i<12;i++){
-    state.field.push(new Array(12)
-        .fill(0)
-        .map(()=>Math.floor(Math.random()*44)));
-}
+const {floor, ceil} = Math;
+
+export const useGameState = defineStore('game-state', ()=>{
+    const state = reactive({
+        field: [],
+        centers : []
+    });
+
+
+    function resetField(cols = 12, rows=12){
+        for (let row=0; row<rows;row++){
+            state.field.push(new Array(cols).fill(-1));
+                //.map(()=>Math.floor(Math.random()*44)));
+        }   
+    }
+
+    function setCenters(centers){
+        state.centers = centers;
+    }
+
+    function initTrivial(){
+        state.centers.forEach(([x,y], index)=>{
+            state.field[floor(y)][floor(x)] = index;
+            state.field[floor(y)][ceil(x)] = index;
+            state.field[ceil(y)][floor(x)] = index;
+            state.field[ceil(y)][ceil(x)] = index;
+        })
+
+    }
+
+    function allPossibleMoves(){
+        
+    }
+
+    return {state, resetField, setCenters, initTrivial};    
+})
+
+
+
+
+
 

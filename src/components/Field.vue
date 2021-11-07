@@ -1,79 +1,90 @@
 <template>
   <div class="field">
-      <div class="row" v-for="(row, y) in state.field" :key="y">
-          <div class="cell" v-for="(cell, x) in row" :key="x" :data-dd=" style(cell)" :style="{ background: style(cell), ... grid_position([x,y])}">
-               
-          </div>
+    <div class="row" v-for="(row, y) in state.field" :key="y">
+      <div
+        class="cell"
+        v-for="(cell, x) in row"
+        :key="x"
+        :data-dd="backgroundStyle(cell)"
+        :style="{
+          background: backgroundStyle(cell),
+          ...gridPosition([x, y]),
+          ...borderStyle(cell),
+        }"
+      >
+        {{ cell.color < 0 ? '' : cell.color }}
       </div>
-      <div 
-        class="center" 
-        v-for="(center, i) in state.centers" 
-        :key="i" 
-            :style="grid_position(center)">
-
-      </div>
+    </div>
+    <div
+      class="center"
+      v-for="(center, i) in state.centers"
+      :key="i"
+      :style="gridPosition(center)"
+    ></div>
   </div>
 </template>
 
-<script setup>
-import {useGameState}  from "../hooks/state";
-const {state, resetField, setCenters, initTrivial} = useGameState();
+<script lang="ts" setup>
+import { useGameState } from '../hooks/state';
+import { data } from '../data/puzzles';
+import { useStyleHelper } from '../hooks/styleHelper';
+const { gridPosition, backgroundStyle, borderStyle } = useStyleHelper();
+const { state, initTrivial, loadData, initBorders, allPossibleMoves } =
+  useGameState();
 
+const puzzle = data.puzzle_1;
 
-const colors = [];
-let n =44;
-while(n--){
-    colors.push(Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));
-}
-const style = (i)=>{
-    if(i<0) return '#bbb';
-    //return `linear-gradient(33deg, #${colors[i]} 0%, #${colors[(i+10)%43]} 100%)`
-    return `#${colors[i]}`
-}
-resetField();
-setCenters([[6,6], [9.5,7], [9.5,10.5], [2,2.5]])
-
+loadData(puzzle);
 initTrivial();
-console.log(colors);
-console.log("asdf"+style(0));
-
-const grid_position = ([x,y])=>{
-    return {
-        gridColumn: `${Math.floor(x+1)}${(Number.isInteger(x))?'':'/ span 2'}`,
-        gridRow: `${Math.floor(y+1)}${(Number.isInteger(y))?'':'/ span 2'}`
-    }
-}
-
+initBorders();
+allPossibleMoves();
 </script>
 
 <style>
 .field {
-    display: grid;
-    grid-template-columns: repeat(12, 40px);
-    grid-template-rows: repeat(12, 40px);
-    grid-gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(v-bind('puzzle.cols'), 40px);
+  grid-template-rows: repeat(v-bind('puzzle.rows'), 40px);
+  grid-gap: 4px;
+  animation: woo 6s infinite;
 }
 .row {
-    display: contents;
+  display: contents;
 }
 
 .cell {
-    background: lightyellow;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    border-radius:10px;
+  background: lightyellow;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  border-radius: 2px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 .center {
-    display: flex;
-    background: white;
-    margin: auto;
-    border: solid black 4px;
-    width: 15px;
-    height: 15px;
-    border-radius: 14px;
+  display: flex;
+  background: white;
+  margin: auto;
+  border: solid black 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 14px;
 }
 
+@keyframes woo {
+  0% {
+    grid-gap: 30px;
+  }
+  50% {
+    grid-gap: 4px;
+  }
+  100% {
+    grid-gap: 30px;
+  }
+}
 </style>

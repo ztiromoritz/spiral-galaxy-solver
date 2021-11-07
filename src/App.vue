@@ -1,21 +1,24 @@
 <script setup>
-  import Field from "./components/Field.vue"
-
+import Field from './components/Field.vue';
+import StarField from './components/StarField.vue';
 </script>
 
 <template>
   <div class="wrapper">
-  <Field></Field>
+    <StarField></StarField>
+    <Field></Field>
   </div>
 </template>
 
 <style>
-html, body {
+html,
+body {
   height: 100%;
 }
 body {
-  display:flex;
-  }
+  display: flex;
+  background-color: black;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
